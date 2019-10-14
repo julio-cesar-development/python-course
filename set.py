@@ -24,3 +24,6 @@ print(s)
 s.remove(1)
 print(s)
 # {2, 3, 4, 6, 7, 8, 9, 10}
+
+if 2 in s:
+  print('2 is in set')

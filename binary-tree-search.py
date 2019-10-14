@@ -69,7 +69,7 @@ class BinarySearchTree:
 
         # current node is None, we must insert the new node here
         else:
-          # if the node to be inserted will be less than the parent, insert it in the lefg
+          # if the node to be inserted will be less than the parent, insert it in the left
           if node.getLabel() < dad_node.getLabel():
             dad_node.setLeft(node)
           else:
