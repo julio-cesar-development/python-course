@@ -1,0 +1,49 @@
+version: '3'
+services:
+  consumer-app:
+    container_name: consumer-app
+    build:
+      context: ./consumer-app
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbit
+    environment:
+      RABBIT_HOST: ${RABBIT_HOST:-rabbit}
+      RABBIT_QUEUE: ${RABBIT_QUEUE:-event_queue}
+      RABBIT_ROUTING_KEY: ${RABBIT_ROUTING_KEY:-event_queue}
+      RABBIT_EXCHANGE: ${RABBIT_EXCHANGE:-event_queue_exchange}
+    networks:
+      - blackdevs_net
+    restart: always
+
+  publisher-app:
+    container_name: publisher-app
+    build:
+      context: ./publisher-app
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbit
+    environment:
+      RABBIT_HOST: ${RABBIT_HOST:-rabbit}
+      RABBIT_QUEUE: ${RABBIT_QUEUE:-event_queue}
+      RABBIT_ROUTING_KEY: ${RABBIT_ROUTING_KEY:-event_queue}
+      RABBIT_EXCHANGE: ${RABBIT_EXCHANGE:-event_queue_exchange}
+    networks:
+      - blackdevs_net
+    restart: always
+
+  rabbit:
+    container_name: rabbit
+    build:
+      context: ./rabbitmq
+      dockerfile: Dockerfile
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - blackdevs_net
+    restart: always
+
+networks:
+  blackdevs_net:
+    driver: bridge
