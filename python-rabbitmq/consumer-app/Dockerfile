@@ -2,9 +2,9 @@ FROM python:3.5-alpine
 LABEL maintainer="Julio Cesar <julio@blackdevs.com.br>"
 
 WORKDIR /app
-COPY ./consumer-app /app
+COPY ./ /app
 
-RUN pip install pika
+RUN pip install pika==1.1.0
 RUN chmod +x /app/consumer.py
 
 ENTRYPOINT [ "python", "/app/consumer.py" ]

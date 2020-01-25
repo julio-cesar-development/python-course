@@ -9,6 +9,9 @@ services:
       - rabbit
     environment:
       RABBIT_HOST: ${RABBIT_HOST:-rabbit}
+      RABBIT_PORT: ${RABBIT_PORT:-5672}
+      RABBIT_USER: ${RABBIT_USER:-dev}
+      RABBIT_PASS: ${RABBIT_PASS:-dev}
       RABBIT_QUEUE: ${RABBIT_QUEUE:-event_queue}
       RABBIT_ROUTING_KEY: ${RABBIT_ROUTING_KEY:-event_queue}
       RABBIT_EXCHANGE: ${RABBIT_EXCHANGE:-event_queue_exchange}
@@ -25,6 +28,9 @@ services:
       - rabbit
     environment:
       RABBIT_HOST: ${RABBIT_HOST:-rabbit}
+      RABBIT_PORT: ${RABBIT_PORT:-5672}
+      RABBIT_USER: ${RABBIT_USER:-dev}
+      RABBIT_PASS: ${RABBIT_PASS:-dev}
       RABBIT_QUEUE: ${RABBIT_QUEUE:-event_queue}
       RABBIT_ROUTING_KEY: ${RABBIT_ROUTING_KEY:-event_queue}
       RABBIT_EXCHANGE: ${RABBIT_EXCHANGE:-event_queue_exchange}

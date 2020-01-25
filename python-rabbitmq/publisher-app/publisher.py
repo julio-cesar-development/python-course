@@ -5,12 +5,26 @@ import json
 import sys
 
 rabbit_host = os.environ.get('RABBIT_HOST', 'localhost')
+rabbit_port = os.environ.get('RABBIT_PORT', 5672)
+rabbit_user = os.environ.get('RABBIT_USER', 'dev')
+rabbit_pass = os.environ.get('RABBIT_PASS', 'dev')
+rabbit_vhost = os.environ.get('RABBIT_VHOST', '/')
 rabbit_queue = os.environ.get('RABBIT_QUEUE', 'event_queue')
 rabbit_routing_key = os.environ.get('RABBIT_ROUTING_KEY', 'event_queue')
 rabbit_exchange = os.environ.get('RABBIT_EXCHANGE', 'event_queue_exchange')
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host=rabbit_host))
+amqp_credentials = pika.PlainCredentials(rabbit_user, rabbit_pass)
+connection = pika.BlockingConnection(
+  pika.ConnectionParameters(
+    host=rabbit_host,
+    port=rabbit_port,
+    credentials=amqp_credentials,
+    virtual_host=rabbit_vhost,
+  )
+)
+
 channel = connection.channel()
+print('channel', channel)
 
 # result = channel.queue_declare(queue=rabbit_queue, durable=True)
 # channel.exchange_declare(exchange=rabbit_exchange, exchange_type='fanout')
