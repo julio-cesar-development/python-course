@@ -15,8 +15,12 @@ COPY rabbitmq-entrypoint.sh /rabbitmq-entrypoint.sh
 
 RUN chmod +x /rabbitmq-config.sh /rabbitmq-entrypoint.sh
 
+# it will call script rabbitmq-entrypoint.sh, passing the argument "rabbitmq-server" defined below in CMD
 ENTRYPOINT ["sh", "/rabbitmq-entrypoint.sh"]
 
 HEALTHCHECK --interval=5s --timeout=5s --start-period=5s --retries=3 CMD [ "rabbitmqctl", "-q", "node_health_check" ]
 
+# it will be passed as argument complementing the entrypoint
 CMD "rabbitmq-server"
+
+# The first command to be executed will be: /bin/sh /rabbitmq-entrypoint.sh rabbitmq-server
