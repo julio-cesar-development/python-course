@@ -14,6 +14,8 @@ rabbit_queue = os.environ.get('RABBIT_QUEUE', 'event_queue')
 rabbit_routing_key = os.environ.get('RABBIT_ROUTING_KEY', 'event_queue')
 rabbit_exchange = os.environ.get('RABBIT_EXCHANGE', 'event_queue_exchange')
 
+time.sleep(15)
+
 amqp_credentials = pika.PlainCredentials(rabbit_user, rabbit_pass)
 connection = pika.BlockingConnection(
   pika.ConnectionParameters(

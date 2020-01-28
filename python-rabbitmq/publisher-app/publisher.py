@@ -3,6 +3,7 @@ import pika
 import os
 import json
 import sys
+import time
 
 rabbit_host = os.environ.get('RABBIT_HOST', 'localhost')
 rabbit_port = os.environ.get('RABBIT_PORT', 5672)
@@ -12,6 +13,8 @@ rabbit_vhost = os.environ.get('RABBIT_VHOST', '/')
 rabbit_queue = os.environ.get('RABBIT_QUEUE', 'event_queue')
 rabbit_routing_key = os.environ.get('RABBIT_ROUTING_KEY', 'event_queue')
 rabbit_exchange = os.environ.get('RABBIT_EXCHANGE', 'event_queue_exchange')
+
+time.sleep(20)
 
 amqp_credentials = pika.PlainCredentials(rabbit_user, rabbit_pass)
 connection = pika.BlockingConnection(

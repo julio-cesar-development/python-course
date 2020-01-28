@@ -1,7 +1,7 @@
 FROM rabbitmq:3.7-management
 LABEL maintainer="Julio Cesar <julio@blackdevs.com.br>"
 
-RUN apt-get update && apt-get install -y wget unzip netcat && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y wget unzip netcat supervisor && rm -rf /var/lib/apt/lists/*
 
 ARG RABBITMQ_DME_VERSION="3.7.x"
 
