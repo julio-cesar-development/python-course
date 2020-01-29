@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-deployment
+  name: consumer-deployment
   namespace: default
   labels:
     app: apprabbit
@@ -19,18 +19,18 @@ spec:
 
   template:
     metadata:
-      name: app-publisher
+      name: app-consumer
       labels:
         app: apprabbit
 
     spec:
       containers:
         - name: client
-          image: juliocesarmidia/app-publisher:latest
+          image: juliocesarmidia/app-consumer:latest
 
           ports:
             - containerPort: 80
-              name: publisher-port
+              name: consumer-port
 
           env:
             - name: RABBIT_HOST
