@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: client
-          image: juliocesarmidia/app-publisher:latest
+          image: juliocesarmidia/app-publisher:v1.0.0
 
           ports:
             - containerPort: 80
@@ -67,10 +67,10 @@ spec:
           resources:
             requests:
               memory: "128Mi"
-              cpu: "200m"
+              cpu: "150m"
 
             limits:
               memory: "256Mi"
-              cpu: "400m"
+              cpu: "300m"
 
       restartPolicy: Always

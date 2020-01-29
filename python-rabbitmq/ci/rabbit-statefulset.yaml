@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: rabbit
-          image: juliocesarmidia/app-rabbit:latest
+          image: juliocesarmidia/app-rabbit:v1.0.0
 
           ports:
             - containerPort: 5672
@@ -33,11 +33,11 @@ spec:
 
           resources:
             requests:
-              memory: "128Mi"
+              memory: "256Mi"
               cpu: "200m"
 
             limits:
-              memory: "256Mi"
+              memory: "512Mi"
               cpu: "400m"
 
       restartPolicy: Always

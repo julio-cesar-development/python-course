@@ -8,15 +8,15 @@ env:
   - SHA=$(git rev-parse HEAD)
 
 before_install:
-  - docker image build --tag juliocesarmidia/app-rabbit:$SHA -f ./python-rabbitmq/rabbitmq/Dockerfile ./python-rabbitmq/rabbitmq/
+  - docker image build --tag juliocesarmidia/app-rabbit:$SHA ./python-rabbitmq/rabbitmq/
 
 script:
   - docker container run -it --rm --name edent-app --entrypoint "" juliocesarmidia/app-rabbit:$SHA bash -c "echo OK && exit 0"
 
 after_success:
-  - docker image build --tag juliocesarmidia/app-rabbit:$SHA --tag juliocesarmidia/app-rabbit:v1.0.0 -f ./python-rabbitmq/rabbitmq/Dockerfile ./python-rabbitmq/rabbitmq/
-  - docker image build --tag juliocesarmidia/app-consumer:$SHA --tag juliocesarmidia/app-consumer:v1.0.0 -f ./python-rabbitmq/consumer-app/Dockerfile ./python-rabbitmq/consumer-app/
-  - docker image build --tag juliocesarmidia/app-publisher:$SHA --tag juliocesarmidia/app-publisher:v1.0.0 -f ./python-rabbitmq/publisher-app/Dockerfile ./python-rabbitmq/publisher-app/
+  - docker image build --tag juliocesarmidia/app-rabbit:$SHA --tag juliocesarmidia/app-rabbit:v1.0.0 ./python-rabbitmq/rabbitmq/
+  - docker image build --tag juliocesarmidia/app-consumer:$SHA --tag juliocesarmidia/app-consumer:v1.0.0 ./python-rabbitmq/consumer-app/
+  - docker image build --tag juliocesarmidia/app-publisher:$SHA --tag juliocesarmidia/app-publisher:v1.0.0 ./python-rabbitmq/publisher-app/
 
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
@@ -29,5 +29,5 @@ after_success:
   - docker image push juliocesarmidia/app-publisher:v1.0.0
   - docker image push juliocesarmidia/app-publisher:$SHA
 
-# docker image build -t juliocesarmidia/app-rabbit:v1.0.0 -f ./rabbitmq/Dockerfile ./rabbitmq/
+# docker image build -t juliocesarmidia/app-rabbit:v1.0.0 ./python-rabbitmq/rabbitmq/
 # docker image push juliocesarmidia/app-rabbit:v1.0.0
