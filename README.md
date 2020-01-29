@@ -1,8 +1,8 @@
-# Python Language Course
+# Python Course
 
 ![Language](https://badgen.net/badge/language/python/blue)
 ![License](https://badgen.net/badge/license/MIT/blue)
-[![GitHub Status](https://badgen.net/github/status/julio-cesar-development/python-language-course)](https://github.com/julio-cesar-development/python-language-course)
+[![GitHub Status](https://badgen.net/github/status/julio-cesar-development/python-course)](https://github.com/julio-cesar-development/python-course)
 
 > This repository contains codes made with Python Language, only for learning purposes
 
