@@ -24,3 +24,7 @@ HEALTHCHECK --interval=5s --timeout=5s --start-period=5s --retries=3 CMD [ "rabb
 CMD "rabbitmq-server"
 
 # The first command to be executed will be: /bin/sh /rabbitmq-entrypoint.sh rabbitmq-server
+
+# build and push
+# docker image build -t juliocesarmidia/app-rabbit:v1.0.0 -f ./rabbitmq/Dockerfile ./rabbitmq/
+# docker image push juliocesarmidia/app-rabbit:v1.0.0

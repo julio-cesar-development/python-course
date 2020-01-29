@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+  namespace: default
+  labels:
+    app: apprabbit
+
+spec:
+  # replicas: 3
+  revisionHistoryLimit: 100
+
+  selector:
+    matchLabels:
+      app: apprabbit
+
+  strategy:
+    type: Recreate
+
+  template:
+    metadata:
+      name: app-publisher
+      labels:
+        app: apprabbit
+
+    spec:
+      containers:
+        - name: client
+          image: juliocesarmidia/app-publisher:latest
+
+          ports:
+            - containerPort: 80
+              name: publisher-port
+
+          env:
+            - name: RABBIT_HOST
+              value: rabbit-service
+
+            - name: RABBIT_PORT
+              value: '5672'
+
+            - name: RABBIT_USER
+              value: 'dev'
+
+            - name: RABBIT_PASS
+              value: 'dev'
+
+            - name: RABBIT_QUEUE
+              value: 'event_queue'
+
+            - name: RABBIT_ROUTING_KEY
+              value: 'event_queue'
+
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 80
+          #   initialDelaySeconds: 10
+          #   timeoutSeconds: 30
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 80
+          #   initialDelaySeconds: 10
+          #   timeoutSeconds: 30
+
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "200m"
+
+            limits:
+              memory: "256Mi"
+              cpu: "400m"
+
+      restartPolicy: Always
