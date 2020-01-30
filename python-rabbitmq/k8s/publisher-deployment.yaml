@@ -38,31 +38,38 @@ spec:
 
             - name: RABBIT_PORT
               value: '5672'
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: env-secrets
+              #     key: rabbitport
 
             - name: RABBIT_USER
               value: 'dev'
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: env-secrets
+              #     key: rabbituser
 
             - name: RABBIT_PASS
               value: 'dev'
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: env-secrets
+              #     key: rabbitpass
 
             - name: RABBIT_QUEUE
               value: 'event_queue'
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: env-secrets
+              #     key: rabbitqueue
 
             - name: RABBIT_ROUTING_KEY
               value: 'event_queue'
-
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: 80
-          #   initialDelaySeconds: 10
-          #   timeoutSeconds: 30
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: 80
-          #   initialDelaySeconds: 10
-          #   timeoutSeconds: 30
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: env-secrets
+              #     key: rabbitroutingkey
 
           resources:
             requests:

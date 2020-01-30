@@ -11,7 +11,7 @@ before_install:
   - docker image build --tag juliocesarmidia/app-rabbit:$SHA ./python-rabbitmq/rabbitmq/
 
 script:
-  - docker container run -it --rm --name edent-app --entrypoint "" juliocesarmidia/app-rabbit:$SHA bash -c "echo OK && exit 0"
+  - docker container run -it --rm --name app-rabbit --entrypoint "" juliocesarmidia/app-rabbit:$SHA bash -c "echo OK && exit 0"
 
 after_success:
   - docker image build --tag juliocesarmidia/app-rabbit:$SHA --tag juliocesarmidia/app-rabbit:v1.0.0 ./python-rabbitmq/rabbitmq/
