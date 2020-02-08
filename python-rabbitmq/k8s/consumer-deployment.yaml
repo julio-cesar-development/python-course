@@ -28,6 +28,9 @@ spec:
         - name: client
           image: juliocesarmidia/app-consumer:v1.0.0
 
+          command: ["/bin/sh"]
+          args: ["-c", "while true; do sleep 15; echo WAITING FOR RABBIT :: $RABBIT_HOST && nc -z $RABBIT_HOST 5672 1> /dev/null 2>&1; test $? == 0 && echo RABBIT HEALTH && break; done; echo CALLING SCRIPT && /usr/local/bin/python /app/consumer.py"]
+
           ports:
             - containerPort: 80
               name: consumer-port
@@ -37,39 +40,34 @@ spec:
               value: rabbit-service
 
             - name: RABBIT_PORT
-              value: '5672'
-              # valueFrom:
-              #   secretKeyRef:
-              #     name: env-secrets
-              #     key: rabbitport
+              valueFrom:
+                secretKeyRef:
+                  name: env-secrets
+                  key: RABBIT_PORT
 
             - name: RABBIT_USER
-              value: 'dev'
-              # valueFrom:
-              #   secretKeyRef:
-              #     name: env-secrets
-              #     key: rabbituser
+              valueFrom:
+                secretKeyRef:
+                  name: env-secrets
+                  key: RABBIT_USER
 
             - name: RABBIT_PASS
-              value: 'dev'
-              # valueFrom:
-              #   secretKeyRef:
-              #     name: env-secrets
-              #     key: rabbitpass
+              valueFrom:
+                secretKeyRef:
+                  name: env-secrets
+                  key: RABBIT_PASS
 
             - name: RABBIT_QUEUE
-              value: 'event_queue'
-              # valueFrom:
-              #   secretKeyRef:
-              #     name: env-secrets
-              #     key: rabbitqueue
+              valueFrom:
+                secretKeyRef:
+                  name: env-secrets
+                  key: RABBIT_QUEUE
 
             - name: RABBIT_ROUTING_KEY
-              value: 'event_queue'
-              # valueFrom:
-              #   secretKeyRef:
-              #     name: env-secrets
-              #     key: rabbitroutingkey
+              valueFrom:
+                secretKeyRef:
+                  name: env-secrets
+                  key: RABBIT_ROUTING_KEY
 
           resources:
             requests:

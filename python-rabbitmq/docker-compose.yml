@@ -18,6 +18,7 @@ services:
     networks:
       - blackdevs_net
     restart: always
+    command: "sh -c 'while true; do sleep 15; echo WAITING FOR RABBIT :: rabbit && nc -z rabbit 5672 1> /dev/null 2>&1; test $$? == 0 && echo RABBIT HEALTH && break; done; echo CALLING SCRIPT && /usr/local/bin/python /app/consumer.py'"
 
   publisher-app:
     container_name: publisher-app
@@ -37,6 +38,7 @@ services:
     networks:
       - blackdevs_net
     restart: always
+    command: "sh -c 'while true; do sleep 15; echo WAITING FOR RABBIT :: rabbit && nc -z rabbit 5672 1> /dev/null 2>&1; test $$? == 0 && echo RABBIT HEALTH && break; done; echo CALLING SCRIPT && /usr/local/bin/python /app/publisher.py'"
 
   rabbit:
     container_name: rabbit

@@ -14,8 +14,6 @@ rabbit_queue = os.environ.get('RABBIT_QUEUE', 'event_queue')
 rabbit_routing_key = os.environ.get('RABBIT_ROUTING_KEY', 'event_queue')
 rabbit_exchange = os.environ.get('RABBIT_EXCHANGE', 'event_queue_exchange')
 
-time.sleep(30)
-
 amqp_credentials = pika.PlainCredentials(rabbit_user, rabbit_pass)
 connection = pika.BlockingConnection(
   pika.ConnectionParameters(
@@ -59,3 +57,5 @@ def exchange_publish(__message, __exchange, __routing_key=''):
 
 print(" [x] Sent message :: %r" % (message))
 connection.close()
+
+sys.exit(0)

@@ -7,7 +7,7 @@ COPY ./ /app
 RUN pip install pika==1.1.0
 RUN chmod +x /app/consumer.py
 
-ENTRYPOINT [ "python", "/app/consumer.py" ]
+CMD [ "/usr/local/bin/python", "/app/consumer.py" ]
 
 # build the image
 # docker image build --tag consumer_app -f Dockerfile ./consumer-app
