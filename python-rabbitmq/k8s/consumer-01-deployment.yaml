@@ -7,15 +7,18 @@ metadata:
     app: apprabbit
 
 spec:
-  # replicas: 3
-  revisionHistoryLimit: 100
+  replicas: 1
+  revisionHistoryLimit: 5
 
   selector:
     matchLabels:
       app: apprabbit
 
   strategy:
-    type: Recreate
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 3
 
   template:
     metadata:
@@ -58,16 +61,7 @@ spec:
                   key: RABBIT_PASS
 
             - name: RABBIT_QUEUE
-              valueFrom:
-                secretKeyRef:
-                  name: env-secrets
-                  key: RABBIT_QUEUE
-
-            - name: RABBIT_ROUTING_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: env-secrets
-                  key: RABBIT_ROUTING_KEY
+              value: event_queue_01
 
           resources:
             requests:

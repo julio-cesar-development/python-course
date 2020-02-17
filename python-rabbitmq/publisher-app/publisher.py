@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import pika
 import os
 import json
@@ -10,11 +9,10 @@ rabbit_port = os.environ.get('RABBIT_PORT', 5672)
 rabbit_user = os.environ.get('RABBIT_USER', 'dev')
 rabbit_pass = os.environ.get('RABBIT_PASS', 'dev')
 rabbit_vhost = os.environ.get('RABBIT_VHOST', '/')
-rabbit_queue = os.environ.get('RABBIT_QUEUE', 'event_queue')
-rabbit_routing_key = os.environ.get('RABBIT_ROUTING_KEY', 'event_queue')
 rabbit_exchange = os.environ.get('RABBIT_EXCHANGE', 'event_queue_exchange')
 
 amqp_credentials = pika.PlainCredentials(rabbit_user, rabbit_pass)
+
 connection = pika.BlockingConnection(
   pika.ConnectionParameters(
     host=rabbit_host,
@@ -26,10 +24,6 @@ connection = pika.BlockingConnection(
 
 channel = connection.channel()
 print('channel', channel)
-
-# result = channel.queue_declare(queue=rabbit_queue, durable=True)
-# channel.exchange_declare(exchange=rabbit_exchange, exchange_type='fanout')
-# channel.queue_bind(exchange=rabbit_exchange, queue=rabbit_queue)
 
 message_id = ''.join(sys.argv[1:]) or 1
 message = json.dumps({ 'id': message_id, 'data': { 'payload': 'RABBIT' } })
@@ -44,7 +38,7 @@ def basic_publish(__message, __routing_key):
                           delivery_mode = 2, # persistent message, also que queue needs to be durable=True
                         ))
 
-basic_publish(message, rabbit_routing_key)
+# basic_publish(message, 'event_queue')
 
 def exchange_publish(__message, __exchange, __routing_key=''):
   # Here it will be sent to specified exchange
@@ -54,6 +48,9 @@ def exchange_publish(__message, __exchange, __routing_key=''):
                         properties=pika.BasicProperties(
                           delivery_mode = 2, # persistent message, also que queue needs to be durable=True
                         ))
+
+exchange_publish(message, rabbit_exchange, 'event_queue_01.event')
+exchange_publish(message, rabbit_exchange, 'event_queue_02.event')
 
 print(" [x] Sent message :: %r" % (message))
 connection.close()

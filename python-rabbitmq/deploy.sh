@@ -10,8 +10,9 @@ kubectl apply -f ./k8s/secrets.yaml
 kubectl apply -f ./k8s/rabbit-statefulset.yaml
 kubectl apply -f ./k8s/rabbit-cluster-ip-service.yaml
 
-# deployment and service consumer
-kubectl apply -f ./k8s/consumer-deployment.yaml
+# deployment consumers
+kubectl apply -f ./k8s/consumer-01-deployment.yaml
+kubectl apply -f ./k8s/consumer-02-deployment.yaml
 
 # deployment and service publisher
 kubectl apply -f ./k8s/publisher-deployment.yaml

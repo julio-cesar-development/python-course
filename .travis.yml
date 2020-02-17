@@ -5,7 +5,7 @@ services:
 dist: trusty
 
 env:
-  - SHA=$(git rev-parse HEAD)
+  - SHA=$(git rev-parse --short HEAD)
 
 before_install:
   - docker image build --tag juliocesarmidia/app-rabbit:$SHA ./python-rabbitmq/rabbitmq/
