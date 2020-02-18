@@ -32,7 +32,7 @@ spec:
           image: juliocesarmidia/app-publisher:v1.0.0
 
           command: ["/bin/sh"]
-          args: ["-c", "while true; do sleep 15; echo WAITING FOR RABBIT :: $RABBIT_HOST && nc -z $RABBIT_HOST 5672 1> /dev/null 2>&1; test $? == 0 && echo RABBIT HEALTH && break; done; echo CALLING SCRIPT && /usr/local/bin/python /app/publisher.py"]
+          args: ["-c", "while true; do sleep 5; echo WAITING $RABBIT_HOST && nc -z $RABBIT_HOST 5672 1> /dev/null 2>&1; test $? == 0 && echo HEALTH && break; done; echo CALLING SCRIPT && /usr/local/bin/python /app/publisher.py"]
 
           ports:
             - containerPort: 80

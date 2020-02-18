@@ -11,6 +11,11 @@ rabbitmqctl add_user dev dev
 rabbitmqctl set_user_tags dev administrator
 rabbitmqctl set_permissions -p / dev ".*" ".*" ".*"
 
+rabbitmqctl set_permissions -p / guest ".*" ".*" ".*"
+
+# amqp tools
+# apt-get install amqp-tools -y
+
 # ### basic config
 # # queues
 # rabbitmqadmin declare --vhost=/ queue name=event_queue auto_delete=false durable=true
@@ -24,6 +29,7 @@ rabbitmqctl set_permissions -p / dev ".*" ".*" ".*"
 
 ### advanced config
 # queues
+# rabbitmqadmin -u {user} -p {password} -V {vhost} declare queue name={nanme} auto_delete=false durable=true
 rabbitmqadmin declare --vhost=/ queue name=event_queue_01 auto_delete=false durable=true
 rabbitmqadmin declare --vhost=/ queue name=event_queue_02 auto_delete=false durable=true
 

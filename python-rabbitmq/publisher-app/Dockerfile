@@ -1,10 +1,10 @@
-FROM python:3.6
+FROM python:3.5-alpine
 LABEL maintainer="Julio Cesar <julio@blackdevs.com.br>"
 
 WORKDIR /app
 COPY ./ /app
 
-RUN pip install pika==1.0.0
+RUN pip install pika==1.1.0
 RUN chmod +x /app/publisher.py
 
 CMD [ "/usr/local/bin/python", "/app/publisher.py" ]

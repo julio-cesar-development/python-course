@@ -3,6 +3,7 @@ import os
 import json
 import sys
 import time
+import logging
 
 rabbit_host = os.environ.get('RABBIT_HOST', 'localhost')
 rabbit_port = os.environ.get('RABBIT_PORT', 5672)
@@ -19,11 +20,13 @@ connection = pika.BlockingConnection(
     port=rabbit_port,
     credentials=amqp_credentials,
     virtual_host=rabbit_vhost,
+    heartbeat=0,
   )
 )
 
 channel = connection.channel()
-print('channel', channel)
+logging.info(channel)
+# logging.info(os.environ)
 
 message_id = ''.join(sys.argv[1:]) or 1
 message = json.dumps({ 'id': message_id, 'data': { 'payload': 'RABBIT' } })
@@ -52,7 +55,7 @@ def exchange_publish(__message, __exchange, __routing_key=''):
 exchange_publish(message, rabbit_exchange, 'event_queue_01.event')
 exchange_publish(message, rabbit_exchange, 'event_queue_02.event')
 
-print(" [x] Sent message :: %r" % (message))
+logging.info(" [x] Sent message :: %r" % (message))
 connection.close()
 
 sys.exit(0)

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-(kubectl delete -f ./k8s 1> /dev/null 2>&1 && echo "Cleaning pods...") &
-wait
+# (kubectl delete -f ./k8s 1> /dev/null 2>&1 && echo "Cleaning pods...") &
+# wait
 
 # secrets
 kubectl apply -f ./k8s/secrets.yaml
