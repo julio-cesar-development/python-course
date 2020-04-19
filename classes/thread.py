@@ -1,11 +1,27 @@
-from threading import Thread, ThreadError
+from threading import Thread
 import time
 
-def func(thread_number):
-  print('Initializing the thread %d' % (thread_number + 1))
-  time.sleep(5)
-  print('Ending the thread %d' % (thread_number + 1))
+# time.sleep suspends only the execution in the specific Thread in multithreaded programs
 
-for i in range(10):
-  t = Thread(target=func, args=(i,))
-  t.start()
+def func1():
+  print('START func1')
+  # time.sleep(2)
+  print('FINISH func1')
+
+def func2():
+  print('START func2')
+  time.sleep(2)
+  print('FINISH func2')
+
+def func3():
+  print('START func3')
+  time.sleep(2)
+  print('FINISH func3')
+
+t1 = Thread(target=func1)
+t2 = Thread(target=func2)
+t3 = Thread(target=func3)
+
+t1.start()
+t2.start()
+t3.start()
