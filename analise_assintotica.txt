@@ -1,0 +1,49 @@
+
+Big-O
+O(f(n))
+
+Little-O
+o(f(n))
+
+Omega
+O(f(n))
+
+Theta
+T(f(n))
+
+
+O (Omega) => limite assintótico inferior (melhor caso)
+O (Big-O) => limite assintótico superior (pior caso)
+
+---
+
+Best
+  O(1)        ou O(n ^ 0)
+  O(log n)
+  O(n)        ou O(n ^ 1)
+  O(n log n)
+  O(n ^ 2)
+  O(n ^ 2 log n)
+  O(n ^ 3)
+  O(2 ^ n)
+Worst
+
+
+Funções constantes:
+1
+
+Funções lineares:
+n
+
+Funções polinomiais:
+2n ^ 2
+
+Funções exponenciais:
+2 ^ n
+
+
+
+
+
+
+
