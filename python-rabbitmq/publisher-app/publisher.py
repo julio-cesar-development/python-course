@@ -4,6 +4,7 @@ import json
 import sys
 import time
 import logging
+from random import randrange
 
 rabbit_host = os.environ.get('RABBIT_HOST', 'localhost')
 rabbit_port = os.environ.get('RABBIT_PORT', 5672)
@@ -26,9 +27,8 @@ connection = pika.BlockingConnection(
 
 channel = connection.channel()
 logging.info(channel)
-# logging.info(os.environ)
 
-message_id = ''.join(sys.argv[1:]) or 1
+message_id = ''.join(sys.argv[1:]) or int(randrange(1000, 10001))
 message = json.dumps({ 'id': message_id, 'data': { 'payload': 'RABBIT' } })
 
 def basic_publish(__message, __routing_key):
@@ -52,6 +52,7 @@ def exchange_publish(__message, __exchange, __routing_key=''):
                           delivery_mode = 2, # persistent message, also que queue needs to be durable=True
                         ))
 
+# publish to exchange with 2 different routing keys
 exchange_publish(message, rabbit_exchange, 'event_queue_01.event')
 exchange_publish(message, rabbit_exchange, 'event_queue_02.event')
 

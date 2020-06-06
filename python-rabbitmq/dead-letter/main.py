@@ -1,7 +1,6 @@
 import pika
 import os
 import time
-from random import randrange
 import logging
 
 rabbit_host = os.environ.get('RABBIT_HOST', 'localhost')
@@ -10,7 +9,7 @@ rabbit_user = os.environ.get('RABBIT_USER', 'dev')
 rabbit_pass = os.environ.get('RABBIT_PASS', 'dev')
 rabbit_vhost = os.environ.get('RABBIT_VHOST', '/')
 
-rabbit_queue = os.environ.get('RABBIT_QUEUE', 'event_queue_01')
+rabbit_queue = os.environ.get('RABBIT_QUEUE', 'dead_letter')
 
 amqp_credentials = pika.PlainCredentials(rabbit_user, rabbit_pass)
 
@@ -31,17 +30,7 @@ logging.info(channel)
 
 def callback_queue(__channel, __method, __properties, __body):
   logging.info(__body)
-  time.sleep(randrange(2, 6))
-
-  # random logic to acknowledge or not
-  acknowledge=randrange(0, 2) == 1
-  if acknowledge:
-    logging.info("WILL ACKNOWLEDGE")
-    __channel.basic_ack(delivery_tag=__method.delivery_tag)
-  else:
-    logging.info("WILL NEGATIVELY ACKNOWLEDGE")
-    __channel.basic_nack(delivery_tag=__method.delivery_tag)
-
+  __channel.basic_ack(delivery_tag=__method.delivery_tag)
   logging.info(" [x] Done")
 
 # dont give more than one message to a worker at a time
