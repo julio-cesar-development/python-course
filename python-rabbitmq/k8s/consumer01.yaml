@@ -1,75 +1,51 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: consumer-deployment
+  name: consumer01
   namespace: default
   labels:
-    app: apprabbit
-
+    app: consumer01
 spec:
   replicas: 1
-  revisionHistoryLimit: 5
-
   selector:
     matchLabels:
-      app: apprabbit
-
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 25%
-      maxSurge: 3
-
+      app: consumer01
   template:
     metadata:
-      name: app-consumer
+      name: consumer01
       labels:
-        app: apprabbit
-
+        app: consumer01
     spec:
       containers:
         - name: client
           image: juliocesarmidia/app-consumer:v1.0.0
-
           command: ["/bin/sh"]
-          args: ["-c", "while true; do sleep 5; echo WAITING $RABBIT_HOST && nc -z $RABBIT_HOST 5672 1> /dev/null 2>&1; test $? == 0 && echo HEALTH && break; done; echo CALLING SCRIPT && /usr/local/bin/python /app/consumer.py"]
-
-          ports:
-            - containerPort: 80
-              name: consumer-port
-
+          args: ["-c", "while true; do sleep 5; echo WAITING $RABBIT_HOST && nc -z $RABBIT_HOST 5672 1> /dev/null 2>&1; test $? == 0 && echo HEALTH && break; done; echo CALLING SCRIPT && python -u consumer.py"]
           env:
             - name: RABBIT_HOST
               value: rabbit-service
-
             - name: RABBIT_PORT
               valueFrom:
                 secretKeyRef:
                   name: env-secrets
                   key: RABBIT_PORT
-
             - name: RABBIT_USER
               valueFrom:
                 secretKeyRef:
                   name: env-secrets
                   key: RABBIT_USER
-
             - name: RABBIT_PASS
               valueFrom:
                 secretKeyRef:
                   name: env-secrets
                   key: RABBIT_PASS
-
             - name: RABBIT_QUEUE
               value: event_queue_01
-
           resources:
             requests:
               memory: "128Mi"
               cpu: "150m"
-
             limits:
               memory: "256Mi"
               cpu: "300m"
-
       restartPolicy: Always

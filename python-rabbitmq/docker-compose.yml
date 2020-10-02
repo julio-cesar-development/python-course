@@ -2,84 +2,84 @@ version: '3.4'
 
 x-env:
   &rabbit-env
-  RABBIT_HOST: ${RABBIT_HOST:-rabbitmq}
+  RABBIT_HOST: ${RABBIT_HOST:-rabbit}
   RABBIT_PORT: ${RABBIT_PORT:-5672}
   RABBIT_USER: ${RABBIT_USER:-dev}
   RABBIT_PASS: ${RABBIT_PASS:-dev}
 
 services:
-  publisher-app:
-    container_name: publisher-app
+  publisher:
+    container_name: publisher
     build:
-      context: ./publisher-app
+      context: ./publisher
       dockerfile: Dockerfile
     depends_on:
-      - rabbitmq
+      - rabbit
     environment:
       <<: *rabbit-env
       RABBIT_EXCHANGE: ${RABBIT_EXCHANGE:-event_queue_exchange}
     networks:
-      - blackdevs_net
+      - localnet
     restart: always
-    command: "sh -c 'while true; do sleep 5; echo WAITING FOR RABBIT :: $$RABBIT_HOST && nc -z $$RABBIT_HOST 5672 1> /dev/null 2>&1; test $$? == 0 && echo RABBIT HEALTH && break; done; echo CALLING SCRIPT && /usr/local/bin/python /app/publisher.py'"
+    command: "sh -c 'while true; do sleep 5; echo WAITING FOR RABBIT :: $$RABBIT_HOST && nc -z $$RABBIT_HOST 5672 1> /dev/null 2>&1; test $$? == 0 && echo RABBIT HEALTH && break; done; echo CALLING SCRIPT && python -u publisher.py'"
 
-  consumer-app-01:
-    container_name: consumer-app-01
+  consumer01:
+    container_name: consumer01
     build:
-      context: ./consumer-app
+      context: ./consumer
       dockerfile: Dockerfile
     depends_on:
-      - rabbitmq
+      - rabbit
     environment:
       <<: *rabbit-env
       RABBIT_QUEUE: event_queue_01
     networks:
-      - blackdevs_net
+      - localnet
     restart: always
-    command: "sh -c 'while true; do sleep 5; echo WAITING FOR RABBIT :: $$RABBIT_HOST && nc -z $$RABBIT_HOST 5672 1> /dev/null 2>&1; test $$? == 0 && echo RABBIT HEALTH && break; done; echo CALLING SCRIPT && /usr/local/bin/python /app/consumer.py'"
+    command: "sh -c 'while true; do sleep 5; echo WAITING FOR RABBIT :: $$RABBIT_HOST && nc -z $$RABBIT_HOST 5672 1> /dev/null 2>&1; test $$? == 0 && echo RABBIT HEALTH && break; done; echo CALLING SCRIPT && python -u consumer.py'"
 
-  consumer-app-02:
-    container_name: consumer-app-02
+  consumer02:
+    container_name: consumer02
     build:
-      context: ./consumer-app
+      context: ./consumer
       dockerfile: Dockerfile
     depends_on:
-      - rabbitmq
+      - rabbit
     environment:
       <<: *rabbit-env
       RABBIT_QUEUE: event_queue_02
     networks:
-      - blackdevs_net
+      - localnet
     restart: always
-    command: "sh -c 'while true; do sleep 5; echo WAITING FOR RABBIT :: $$RABBIT_HOST && nc -z $$RABBIT_HOST 5672 1> /dev/null 2>&1; test $$? == 0 && echo RABBIT HEALTH && break; done; echo CALLING SCRIPT && /usr/local/bin/python /app/consumer.py'"
+    command: "sh -c 'while true; do sleep 5; echo WAITING FOR RABBIT :: $$RABBIT_HOST && nc -z $$RABBIT_HOST 5672 1> /dev/null 2>&1; test $$? == 0 && echo RABBIT HEALTH && break; done; echo CALLING SCRIPT && python -u consumer.py'"
 
-  dead-letter:
-    container_name: dead-letter
+  deadletter:
+    container_name: deadletter
     build:
-      context: ./dead-letter
+      context: ./deadletter
       dockerfile: Dockerfile
     depends_on:
-      - rabbitmq
+      - rabbit
     environment:
       <<: *rabbit-env
       RABBIT_QUEUE: dead_letter
     networks:
-      - blackdevs_net
+      - localnet
     restart: always
-    command: "sh -c 'while true; do sleep 5; echo WAITING FOR RABBIT :: $$RABBIT_HOST && nc -z $$RABBIT_HOST 5672 1> /dev/null 2>&1; test $$? == 0 && echo RABBIT HEALTH && break; done; echo CALLING SCRIPT && /usr/local/bin/python /app/main.py'"
+    command: "sh -c 'while true; do sleep 5; echo WAITING FOR RABBIT :: $$RABBIT_HOST && nc -z $$RABBIT_HOST 5672 1> /dev/null 2>&1; test $$? == 0 && echo RABBIT HEALTH && break; done; echo CALLING SCRIPT && python -u main.py'"
 
-  rabbitmq:
-    container_name: rabbitmq
+  rabbit:
+    container_name: rabbit
     build:
-      context: ./rabbitmq
+      context: ./rabbit
       dockerfile: Dockerfile
     ports:
       - '5872:5672'
       - '15872:15672'
     networks:
-      - blackdevs_net
+      - localnet
     restart: always
 
 networks:
-  blackdevs_net:
+  localnet:
     driver: bridge
