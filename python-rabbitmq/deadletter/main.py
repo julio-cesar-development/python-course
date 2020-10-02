@@ -30,6 +30,9 @@ logging.info(channel)
 
 def callback_queue(__channel, __method, __properties, __body):
   logging.info(__body)
+  logging.info(__properties.headers)
+  logging.info(__method.routing_key)
+
   __channel.basic_ack(delivery_tag=__method.delivery_tag)
   logging.info(" [x] Done")
 

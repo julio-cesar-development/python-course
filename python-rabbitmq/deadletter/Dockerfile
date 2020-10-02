@@ -16,3 +16,7 @@ CMD [ "python", "-u", "main.py" ]
 
 # run  in interactive mode and replacing entrypoint to access sh
 # docker container run --rm -v ${PWD}:/deadletter/ -it --entrypoint "" deadletter:latest /bin/sh
+
+# build and push
+# docker image build --tag juliocesarmidia/app-deadletter:v1.0.0 ./deadletter
+# docker image push juliocesarmidia/app-deadletter:v1.0.0

@@ -29,5 +29,5 @@ CMD "rabbitmq-server"
 # The first command to be executed will be: /bin/sh /rabbitmq-entrypoint.sh rabbitmq-server
 
 # build and push
-# docker image build -t juliocesarmidia/app-rabbit:v1.0.0 ./rabbit/
+# docker image build --tag juliocesarmidia/app-rabbit:v1.0.0 ./rabbit
 # docker image push juliocesarmidia/app-rabbit:v1.0.0

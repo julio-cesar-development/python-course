@@ -40,7 +40,7 @@ def callback_queue(__channel, __method, __properties, __body):
     __channel.basic_ack(delivery_tag=__method.delivery_tag)
   else:
     logging.info("WILL NEGATIVELY ACKNOWLEDGE")
-    __channel.basic_nack(delivery_tag=__method.delivery_tag)
+    __channel.basic_nack(delivery_tag=__method.delivery_tag, multiple=False, requeue=False)
 
   logging.info(" [x] Done")
 

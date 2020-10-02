@@ -16,3 +16,7 @@ CMD [ "python", "-u", "consumer.py" ]
 
 # run  in interactive mode and replacing entrypoint to access sh
 # docker container run --rm -v ${PWD}:/consumer/ -it --entrypoint "" consumer:latest /bin/sh
+
+# build and push
+# docker image build --tag juliocesarmidia/app-consumer:v1.0.0 ./consumer
+# docker image push juliocesarmidia/app-consumer:v1.0.0

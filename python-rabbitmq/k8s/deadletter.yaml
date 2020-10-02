@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: consumer02
+  name: deadletter
   namespace: default
   labels:
-    app: consumer02
+    app: deadletter
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: consumer02
+      app: deadletter
   template:
     metadata:
-      name: consumer02
+      name: deadletter
       labels:
-        app: consumer02
+        app: deadletter
     spec:
       containers:
-        - name: consumer
-          image: juliocesarmidia/app-consumer:v1.0.0
+        - name: deadletter
+          image: juliocesarmidia/app-deadletter:v1.0.0
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh"]
-          args: ["-c", "while true; do sleep 5; echo WAITING $RABBIT_HOST && nc -z $RABBIT_HOST 5672 1> /dev/null 2>&1; test $? == 0 && echo HEALTH && break; done; echo CALLING SCRIPT && python -u consumer.py"]
+          args: ["-c", "while true; do sleep 5; echo WAITING $RABBIT_HOST && nc -z $RABBIT_HOST 5672 1> /dev/null 2>&1; test $? == 0 && echo HEALTH && break; done; echo CALLING SCRIPT && python -u main.py"]
           env:
             - name: RABBIT_HOST
               value: rabbit-service
@@ -41,7 +41,7 @@ spec:
                   name: env-secrets
                   key: RABBIT_PASS
             - name: RABBIT_QUEUE
-              value: event_queue_02
+              value: dead_letter
           resources:
             requests:
               memory: "128Mi"

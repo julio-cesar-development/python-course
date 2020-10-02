@@ -1,24 +1,17 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: publisher
   namespace: default
   labels:
     app: publisher
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: publisher
   template:
-    metadata:
-      name: publisher
-      labels:
-        app: publisher
     spec:
       containers:
-        - name: client
+        - name: publisher
           image: juliocesarmidia/app-publisher:v1.0.0
+          imagePullPolicy: IfNotPresent
           command: ["/bin/sh"]
           args: ["-c", "while true; do sleep 5; echo WAITING $RABBIT_HOST && nc -z $RABBIT_HOST 5672 1> /dev/null 2>&1; test $? == 0 && echo HEALTH && break; done; echo CALLING SCRIPT && python -u publisher.py"]
           env:
@@ -48,4 +41,5 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "300m"
-      restartPolicy: Always
+      restartPolicy: Never
+  backoffLimit: 1

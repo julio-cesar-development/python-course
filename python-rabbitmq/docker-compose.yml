@@ -20,7 +20,7 @@ services:
       RABBIT_EXCHANGE: ${RABBIT_EXCHANGE:-event_queue_exchange}
     networks:
       - localnet
-    restart: always
+    restart: "no"
     command: "sh -c 'while true; do sleep 5; echo WAITING FOR RABBIT :: $$RABBIT_HOST && nc -z $$RABBIT_HOST 5672 1> /dev/null 2>&1; test $$? == 0 && echo RABBIT HEALTH && break; done; echo CALLING SCRIPT && python -u publisher.py'"
 
   consumer01:

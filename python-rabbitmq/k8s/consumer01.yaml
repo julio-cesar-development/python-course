@@ -17,8 +17,9 @@ spec:
         app: consumer01
     spec:
       containers:
-        - name: client
+        - name: consumer
           image: juliocesarmidia/app-consumer:v1.0.0
+          imagePullPolicy: IfNotPresent
           command: ["/bin/sh"]
           args: ["-c", "while true; do sleep 5; echo WAITING $RABBIT_HOST && nc -z $RABBIT_HOST 5672 1> /dev/null 2>&1; test $? == 0 && echo HEALTH && break; done; echo CALLING SCRIPT && python -u consumer.py"]
           env:

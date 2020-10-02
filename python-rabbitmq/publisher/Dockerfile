@@ -16,3 +16,7 @@ CMD [ "python", "-u", "publisher.py" ]
 
 # run  in interactive mode and replacing entrypoint to access sh
 # docker container run --rm -v ${PWD}:/publisher/ -it --entrypoint "" publisher:latest /bin/sh
+
+# build and push
+# docker image build --tag juliocesarmidia/app-publisher:v1.0.0 ./publisher
+# docker image push juliocesarmidia/app-publisher:v1.0.0
