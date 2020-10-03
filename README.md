@@ -1,6 +1,6 @@
 # Python Course
 
-[![Build Status](https://badgen.net/travis/julio-cesar-development/python-course?icon=travis)](https://travis-ci.com/julio-cesar-development/python-course)
+[![Build Status](https://travis-ci.org/julio-cesar-development/python-course.svg)](https://travis-ci.org/julio-cesar-development/python-course)
 ![Language](https://badgen.net/badge/language/python/blue)
 ![License](https://badgen.net/badge/license/MIT/blue)
 [![GitHub Status](https://badgen.net/github/status/julio-cesar-development/python-course)](https://github.com/julio-cesar-development/python-course)
