@@ -5,29 +5,45 @@ services:
 dist: trusty
 
 env:
-  - SHA=$(git rev-parse --short HEAD)
+  - SHA=$(git rev-parse --short=7 HEAD)
 
 before_install:
-  - docker image build --tag juliocesarmidia/app-rabbit:$SHA ./python-rabbitmq/rabbitmq/
+  - |
+    docker image build \
+      --tag juliocesarmidia/app-rabbit:$SHA \
+      ./python-rabbitmq/rabbit/
 
 script:
-  - docker container run -it --rm --name app-rabbit --entrypoint "" juliocesarmidia/app-rabbit:$SHA bash -c "echo OK && exit 0"
+  - |
+    docker container run -it --rm \
+      --entrypoint "" \
+      juliocesarmidia/app-rabbit:$SHA \
+      hostname
 
 after_success:
-  - docker image build --tag juliocesarmidia/app-rabbit:$SHA --tag juliocesarmidia/app-rabbit:v1.0.0 ./python-rabbitmq/rabbitmq/
-  - docker image build --tag juliocesarmidia/app-consumer:$SHA --tag juliocesarmidia/app-consumer:v1.0.0 ./python-rabbitmq/consumer-app/
-  - docker image build --tag juliocesarmidia/app-publisher:$SHA --tag juliocesarmidia/app-publisher:v1.0.0 ./python-rabbitmq/publisher-app/
+  - |
+    docker image build \
+      --tag juliocesarmidia/app-rabbit:$SHA \
+      --tag juliocesarmidia/app-rabbit:latest \
+      ./python-rabbitmq/rabbit/
 
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    docker image build \
+      --tag juliocesarmidia/app-consumer:$SHA \
+      --tag juliocesarmidia/app-consumer:latest \
+      ./python-rabbitmq/consumer/
 
-  - docker image push juliocesarmidia/app-rabbit:v1.0.0
-  - docker image push juliocesarmidia/app-rabbit:$SHA
+    docker image build \
+      --tag juliocesarmidia/app-publisher:$SHA \
+      --tag juliocesarmidia/app-publisher:latest \
+      ./python-rabbitmq/publisher/
 
-  - docker image push juliocesarmidia/app-consumer:v1.0.0
-  - docker image push juliocesarmidia/app-consumer:$SHA
+    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
-  - docker image push juliocesarmidia/app-publisher:v1.0.0
-  - docker image push juliocesarmidia/app-publisher:$SHA
+    docker image push juliocesarmidia/app-rabbit:latest
+    docker image push juliocesarmidia/app-rabbit:$SHA
 
-# docker image build -t juliocesarmidia/app-rabbit:v1.0.0 ./python-rabbitmq/rabbitmq/
-# docker image push juliocesarmidia/app-rabbit:v1.0.0
+    docker image push juliocesarmidia/app-consumer:latest
+    docker image push juliocesarmidia/app-consumer:$SHA
+
+    docker image push juliocesarmidia/app-publisher:latest
+    docker image push juliocesarmidia/app-publisher:$SHA
